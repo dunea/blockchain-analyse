@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -11,27 +13,27 @@ class Kline(BaseModel):
 
 
 class Stoch(BaseModel):
-    k: float
-    d: float
+    k: Optional[float]
+    d: Optional[float]
 
 
 class StochRSI(BaseModel):
-    k: float
-    d: float
+    k: Optional[float]
+    d: Optional[float]
 
 
 class MACD(BaseModel):
-    macd: float
-    signal: float
-    hist: float
+    macd: Optional[float]
+    signal: Optional[float]
+    hist: Optional[float]
 
 
 class BollingerBands(BaseModel):
-    upper_band: float
-    middle_band: float
-    lower_band: float
+    upper_band: Optional[float]
+    middle_band: Optional[float]
+    lower_band: Optional[float]
 
 
 class HighsLows(BaseModel):
-    high: float
-    low: float
+    high: Optional[float]
+    low: Optional[float]

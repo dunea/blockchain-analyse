@@ -1,16 +1,37 @@
-# 这是一个示例 Python 脚本。
+import asyncio
 
-# 按 Shift+F10 执行或将其替换为您的代码。
-# 按 双击 Shift 在所有地方搜索类、文件、工具窗口、操作和设置。
+from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
+import uvicorn
 
+from src.api.controller import indicators_controller
+from src.api.middlewares import exception_handler
 
-def print_hi(name):
-    # 在下面的代码行中使用断点来调试脚本。
-    print(f'Hi, {name}')  # 按 Ctrl+F8 切换断点。
-
-
-# 按装订区域中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    app = FastAPI()
 
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+    # 配置CORS
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # 允许所有来源
+        allow_credentials=True,
+        allow_methods=["*"],  # 允许所有HTTP方法
+        allow_headers=["*"],  # 允许所有HTTP头
+    )
+
+    # 错误处理器
+    app.add_exception_handler(Exception, exception_handler)
+
+    # 将路由注册到应用中
+    app.include_router(indicators_controller, prefix="/api/v1/indicators", tags=["indicators"])
+
+    # 运行配置
+    config = uvicorn.Config(
+        app,
+        host="0.0.0.0",
+        port=8093,
+        timeout_keep_alive=60,
+        timeout_notify=60,
+    )
+    server = uvicorn.Server(config)
+    asyncio.run(server.serve())

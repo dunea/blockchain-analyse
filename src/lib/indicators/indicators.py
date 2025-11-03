@@ -2,6 +2,7 @@ from typing import Any, Literal
 
 import pandas as pd
 import talib
+import numpy as np
 from numpy import ndarray, dtype, float64
 from talib import MA_Type
 
@@ -20,10 +21,31 @@ class Indicators:
             'timestamp': [k.timestamp for k in self._kline_list],
         })
 
+    # 辅助：将 numpy/ pandas 列表或数组中的 NaN 转换为 None，并返回普通 list
+    @staticmethod
+    def _to_list_with_none(arr: Any) -> list[Any]:
+        # arr 可能是 numpy array / pandas Series / list
+        series = pd.Series(arr)
+        # 使用 isna 判断（覆盖 NaN / None / NaT）
+        result = []
+        for v in series.tolist():
+            if v is None:
+                result.append(None)
+            else:
+                try:
+                    # numpy 的 NaN 是 float, 用 pandas 判断更稳健
+                    if pd.isna(v):
+                        result.append(None)
+                    else:
+                        result.append(v)
+                except Exception:
+                    result.append(v)
+        return result
+
     # 计算rsi
     def rsi(self, timeperiod=14) -> list[float]:
         rsi = talib.RSI(self.df['close'], timeperiod=timeperiod)
-        return rsi.tolist()
+        return self._to_list_with_none(rsi.tolist())
 
     # 计算stoch
     def stoch(self, fastk_period=9, slowk_period=1, slowd_period=6) -> list[Stoch]:
@@ -35,8 +57,8 @@ class Indicators:
             slowk_period=slowk_period,
             slowd_period=slowd_period,
         )
-        ks = stoch[0].tolist()
-        ds = stoch[1].tolist()
+        ks = self._to_list_with_none(stoch[0].tolist())
+        ds = self._to_list_with_none(stoch[1].tolist())
         res_list = []
         for k, d in zip(ks, ds):
             res_list.append(Stoch(k=k, d=d))
@@ -89,65 +111,74 @@ class Indicators:
             k_smooth = pd.Series(k_raw).rolling(window=smooth_k, min_periods=1).mean().to_numpy()
             d_smooth = pd.Series(k_smooth).rolling(window=smooth_d, min_periods=1).mean().to_numpy()
 
+        k_smooths = self._to_list_with_none(k_smooth.tolist())
+        d_smooths = self._to_list_with_none(d_smooth.tolist())
         res_list = []
-        for k_val, d_val in zip(k_smooth.tolist(), d_smooth.tolist()):
+        for k_val, d_val in zip(k_smooths, d_smooths):
             res_list.append(StochRSI(k=k_val, d=d_val))
         return res_list
 
     # 计算MACD(12,26)
     def macd(self, fast_period=12, slow_period=26, signal_period=9) -> list[MACD]:
-        macd = talib.MACD(self.df['close'], fastperiod=fast_period, slowperiod=slow_period, signalperiod=signal_period)
-        hist = macd[2].tolist()
-        macds = macd[0].tolist()
-        signal = macd[1].tolist()
+        macd = talib.MACD(
+            self.df['close'],
+            fastperiod=fast_period,
+            slowperiod=slow_period,
+            signalperiod=signal_period
+        )
+        hist = self._to_list_with_none(macd[2].tolist())
+        macds = self._to_list_with_none(macd[0].tolist())
+        signal = self._to_list_with_none(macd[1].tolist())
         res_list = []
         for macd, signal, hist in zip(macds, signal, hist):
             res_list.append(MACD(macd=macd, signal=signal, hist=hist))
         return res_list
 
     # 计算MA
-    def ma(self, timeperiod: int, ma_type=0) -> list[float]:
+    def ma(self, timeperiod: int = 5, ma_type: MA_Type = MA_Type.SMA) -> list[float]:
         ma = talib.MA(self.df['close'], timeperiod=timeperiod, matype=ma_type)
-        return ma.tolist()
+        return self._to_list_with_none(ma.tolist())
 
     # 计算ADX(14)
     def adx(self, timeperiod=14) -> list[float]:
         adx = talib.ADX(self.df['high'], self.df['low'], self.df['close'], timeperiod=timeperiod)
-        return adx.tolist()
+        return self._to_list_with_none(adx.tolist())
 
     # 计算Williams %R(14)
     def williams_r(self, timeperiod=14) -> list[float]:
         williams_r = talib.WILLR(self.df['high'], self.df['low'], self.df['close'], timeperiod=timeperiod)
-        return williams_r.tolist()
+        return self._to_list_with_none(williams_r.tolist())
 
     # 计算CCI(14)
     def cci(self, timeperiod=14) -> list[float]:
         cci = talib.CCI(self.df['high'], self.df['low'], self.df['close'], timeperiod=timeperiod)
-        return cci.tolist()
+        return self._to_list_with_none(cci.tolist())
 
     # 计算ATR(14)
     def atr(self, timeperiod=14) -> list[float]:
         atr = talib.ATR(self.df['high'], self.df['low'], self.df['close'], timeperiod=timeperiod)
-        return atr.tolist()
+        return self._to_list_with_none(atr.tolist())
 
     # 计算Highs/Lows(14)
     def highs_lows(self, timeperiod=14) -> list[HighsLows]:
         highs = talib.MAX(self.df['high'], timeperiod=timeperiod)
         lows = talib.MIN(self.df['low'], timeperiod=timeperiod)
+        highs_list = self._to_list_with_none(highs.tolist())
+        lows_list = self._to_list_with_none(lows.tolist())
         res_list = []
-        for high, low in zip(highs.tolist(), lows.tolist()):
+        for high, low in zip(highs_list, lows_list):
             res_list.append(HighsLows(high=high, low=low))
         return res_list
 
     # 计算UltimateOscillator
     def ultimate_oscillator(self) -> list[float]:
         ultimate_oscillator = talib.ULTOSC(self.df['high'], self.df['low'], self.df['close'])
-        return ultimate_oscillator.tolist()
+        return self._to_list_with_none(ultimate_oscillator.tolist())
 
     # 计算ROC
     def roc(self, timeperiod=9) -> list[float]:
         roc = talib.ROC(self.df['close'], timeperiod=timeperiod)
-        return roc.tolist()
+        return self._to_list_with_none(roc.tolist())
 
     # 计算Bull/Bear Power(13)
     def bull_bear_power(self, timeperiod=13, smooth=True, ma_type: MA_Type = MA_Type.SMA) -> list[float]:
@@ -160,10 +191,10 @@ class Indicators:
         bop = talib.BOP(self.df['open'], self.df['high'], self.df['low'], self.df['close'])
         # 是否平滑
         if not smooth or (timeperiod is None) or (timeperiod <= 1):
-            return bop.tolist()
+            return self._to_list_with_none(bop.tolist())
         # 使用 talib.MA 对 BOP 做移动平均平滑
         bop_smooth = talib.MA(bop, timeperiod=timeperiod, matype=ma_type)
-        return bop_smooth.tolist()
+        return self._to_list_with_none(bop_smooth.tolist())
 
     # 计算Bollinger Bands
     def bollinger_bands(self, timeperiod=20, nbdevup=2, nbdevdn=2, matype=MA_Type.SMA) -> list[BollingerBands]:
@@ -174,9 +205,9 @@ class Indicators:
             nbdevdn=nbdevdn,
             matype=matype
         )
-        uppers = upper.tolist()
-        middles = middle.tolist()
-        lowers = lower.tolist()
+        uppers = self._to_list_with_none(upper.tolist())
+        middles = self._to_list_with_none(middle.tolist())
+        lowers = self._to_list_with_none(lower.tolist())
         res_list = []
         for upper_v, middle_v, lower_v in zip(uppers, middles, lowers):
             res_list.append(BollingerBands(upper_band=upper_v, middle_band=middle_v, lower_band=lower_v))
