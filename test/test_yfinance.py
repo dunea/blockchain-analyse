@@ -3,8 +3,8 @@ import yfinance as yf
 
 if __name__ == '__main__':
     yf.set_config(proxy={
-        "http": "http://sp321weaes:gDVljM64x6feY3lvt+@dc.decodo.com:10000",
-        "https": "http://sp321weaes:gDVljM64x6feY3lvt+@dc.decodo.com:10000",
+        "http": "http://127.0.0.1:10809",
+        "https": "http://127.0.0.1:10809",
     })
 
     # 使用 yfinance 获取 BTC-USD 最近 200 根 1 分钟 K 线

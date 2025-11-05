@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 
-from src.api.controller import indicators_controller
+from src.api.controller import indicators_controller, analyse_controller
 from src.api.middlewares import exception_handler
 
 if __name__ == '__main__':
@@ -24,6 +24,7 @@ if __name__ == '__main__':
 
     # 将路由注册到应用中
     app.include_router(indicators_controller, prefix="/api/v1/indicators", tags=["indicators"])
+    app.include_router(analyse_controller, prefix="/api/v1/analyse", tags=["analyse"])
 
     # 运行配置
     config = uvicorn.Config(

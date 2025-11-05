@@ -1,12 +1,10 @@
 import ccxt
 
+from src.core import settings
+
 exchange = ccxt.okx({
-    'options': {
-        'defaultType': 'swap',  # OKX使用swap表示永续合约
-    },
-    'apiKey': "5506151e-dd90-4c2e-8090-6e75ba46107c",
-    'secret': "C6B142F118A207039E530B38C7C6920D",
-    'password': "Aa147258.",  # OKX需要交易密码
+    'apiKey': settings.OKX_API_KEY,
+    'secret': settings.OKX_SECRET,
 })
 exchange.session.proxies = {
     "http": "http://127.0.0.1:10809",

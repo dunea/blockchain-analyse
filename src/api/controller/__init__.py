@@ -1,1 +1,2 @@
 from .indicators_controller import indicators_controller
+from .analyse_controller import analyse_controller

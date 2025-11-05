@@ -1,2 +1,2 @@
-from .models import Kline
+from .models import *
 from .indicators import Indicators

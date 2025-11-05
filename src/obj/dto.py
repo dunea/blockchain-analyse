@@ -4,6 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from src.lib.indicators.models import StochRSI, MACD, HighsLows, BollingerBands, Stoch
+from .analyse_result import SwapTimeFramesDirection, SwapDirection
 
 
 class KlineDto(BaseModel):
@@ -35,3 +36,8 @@ class IndicatorsDto(BaseModel):
     ma50: Optional[list[Optional[float]]] = Field(default=None)
     ma100: Optional[list[Optional[float]]] = Field(default=None)
     ma200: Optional[list[Optional[float]]] = Field(default=None)
+
+
+class SwapDirectionDto(BaseModel):
+    directions: list[SwapTimeFramesDirection]
+    conclusion_direction: SwapDirection
