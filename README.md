@@ -54,6 +54,28 @@
 - 配置敏感信息请放入 .env，切勿提交到 VCS。
 - 新增模块后务必补充或更新单元测试。
 
+## 提示词指标标签
+- {{kline}}
+- {{rsi}}
+- {{stoch}}
+- {{stoch_rsi}}
+- {{macd}}
+- {{adx}}
+- {{williams_r}}
+- {{cci}}
+- {{atr}}
+- {{highs_lows}}
+- {{ultimate_oscillator}}
+- {{roc}}
+- {{bull_bear_power}}
+- {{bollinger_bands}}
+- {{ma5}}
+- {{ma10}}
+- {{ma20}}
+- {{ma50}}
+- {{ma100}}
+- {{ma200}}
+
 ## 贡献
 欢迎提交 issue 和 PR；请描述复现步骤并包含测试用例（若适用）。
 
