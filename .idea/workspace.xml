@@ -18,9 +18,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf8589a-b0c3-4f84-83f3-782eceb6a5f6" name="更改" comment="集成 OpenAI 功能，完善 OKX 分析服务逻辑，支持通过 AI 进行信号分析和异常处理">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fbf8589a-b0c3-4f84-83f3-782eceb6a5f6" name="更改" comment="添加依赖文件和 README 文档，完善项目环境配置及使用说明">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +62,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "D:/Develop/Python/blockchain-analyse/src/api/middlewares",
+    "last_opened_file_path": "D:/Develop/Python/blockchain-analyse",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,9 +74,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Develop\Python\blockchain-analyse" />
       <recent name="D:\Develop\Python\blockchain-analyse\src\api\middlewares" />
       <recent name="D:\Develop\Python\blockchain-analyse\src\core" />
-      <recent name="D:\Develop\Python\blockchain-analyse" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Develop\Python\blockchain-analyse" />
@@ -226,7 +226,7 @@
       <workItem from="1761802987887" duration="8893000" />
       <workItem from="1761909308732" duration="18341000" />
       <workItem from="1762035625112" duration="42954000" />
-      <workItem from="1762239003111" duration="74623000" />
+      <workItem from="1762239003111" duration="74818000" />
     </task>
     <task id="LOCAL-00001" summary="添加项目初始化文件和开发常用命令文档">
       <option name="closed" value="true" />
@@ -276,7 +276,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762371570338</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="添加依赖文件和 README 文档，完善项目环境配置及使用说明">
+      <option name="closed" value="true" />
+      <created>1762371691229</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1762371691229</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,7 +309,8 @@
     <MESSAGE value="添加 OKX 分析服务模块，配置 API 接口及相关逻辑，完善技术指标分析测试" />
     <MESSAGE value="添加 `.env.example` 文件，配置 OKX 和 OpenAI API 参数" />
     <MESSAGE value="集成 OpenAI 功能，完善 OKX 分析服务逻辑，支持通过 AI 进行信号分析和异常处理" />
-    <option name="LAST_COMMIT_MESSAGE" value="集成 OpenAI 功能，完善 OKX 分析服务逻辑，支持通过 AI 进行信号分析和异常处理" />
+    <MESSAGE value="添加依赖文件和 README 文档，完善项目环境配置及使用说明" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加依赖文件和 README 文档，完善项目环境配置及使用说明" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_yfinance.coverage" NAME="test_yfinance 覆盖结果" MODIFIED="1761814654868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />

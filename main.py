@@ -30,9 +30,9 @@ if __name__ == '__main__':
     config = uvicorn.Config(
         app,
         host="0.0.0.0",
-        port=8093,
-        timeout_keep_alive=60,
-        timeout_notify=60,
+        port=9000,
+        timeout_keep_alive=60 * 5,
+        timeout_notify=60 * 5,
     )
     server = uvicorn.Server(config)
     asyncio.run(server.serve())
