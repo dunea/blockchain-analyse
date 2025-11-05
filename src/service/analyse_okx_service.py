@@ -4,7 +4,9 @@ from typing import Optional
 
 from ccxt.async_support import okx
 from injector import inject
+from openai import AsyncOpenAI
 
+from src.core import settings
 from src.lib.indicators import Kline
 from src.obj import SwapTimeFramesDirection, KlineDto, SwapDirectionDto, SwapDirection
 from src.service.analyse_service import AnalyseService
@@ -37,11 +39,19 @@ class AnalyseOkxService:
             current_price: float,
             *,
             symbol: str = "BTC/USDT:USDT",
-            leverage: int = 1
+            leverage: int = 1,
+            async_openai: AsyncOpenAI = None,
+            openai_model: str = settings.OPENAI_MODEL,
     ) -> SwapTimeFramesDirection:
         ohlcv = await self._exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=300)
         kline_list: list[KlineDto] = self._transition_ohlcv(ohlcv)
-        swap_direction = await self._analyse_svc.analyse_swap_direction(kline_list, current_price, leverage=leverage)
+        swap_direction = await self._analyse_svc.analyse_swap_direction(
+            kline_list,
+            current_price,
+            leverage=leverage,
+            async_openai=async_openai,
+            openai_model=openai_model
+        )
         return SwapTimeFramesDirection.model_validate({
             **swap_direction.model_dump(),
             "timeframe": timeframe,
@@ -53,7 +63,9 @@ class AnalyseOkxService:
             symbol: str,
             *,
             leverage: int = 1,
-            timeframes: list[str] = None
+            timeframes: list[str] = None,
+            async_openai: AsyncOpenAI = None,
+            openai_model: str = settings.OPENAI_MODEL,
     ) -> SwapDirectionDto:
         if timeframes is None:
             timeframes = ["1m", "5m", "15m", "30m", "1h", "4h", "1d"]
@@ -78,6 +90,8 @@ class AnalyseOkxService:
                     current_price,
                     symbol=symbol,
                     leverage=leverage,
+                    async_openai=async_openai,
+                    openai_model=openai_model,
                 )
             except Exception as e:
                 return {"timeframe": timeframe, "error": e, "traceback": traceback.format_exc()}
@@ -86,7 +100,11 @@ class AnalyseOkxService:
         results = await asyncio.gather(*tasks, return_exceptions=True)
         for r in results:
             if isinstance(r, dict) and "error" in r:
-                raise r["error"]
+                err = r["error"]
+                if isinstance(err, BaseException):
+                    raise err
+                else:
+                    raise Exception(err)
             elif isinstance(r, Exception):
                 raise r
             else:
@@ -97,7 +115,9 @@ class AnalyseOkxService:
             conclusion_direction = await self._analyse_svc.analyse_swap_directions(
                 directions,
                 current_price,
-                leverage=leverage
+                leverage=leverage,
+                async_openai=async_openai,
+                openai_model=openai_model,
             )
 
         return SwapDirectionDto(
@@ -113,12 +133,20 @@ class AnalyseOkxService:
             leverage: int = 1,
             timeframes: list[str] = None,
             compare: int = 3,
+            async_openai: AsyncOpenAI = None,
+            openai_model: str = settings.OPENAI_MODEL,
     ) -> SwapDirectionDto:
         analyse_result_list: list[SwapDirectionDto] = []
 
         async def task_wrapper():
             try:
-                return await self.analyse(symbol, leverage=leverage, timeframes=timeframes)
+                return await self.analyse(
+                    symbol,
+                    leverage=leverage,
+                    timeframes=timeframes,
+                    async_openai=async_openai,
+                    openai_model=openai_model,
+                )
             except Exception as e:
                 return {"error": e, "traceback": traceback.format_exc()}
 
@@ -126,7 +154,11 @@ class AnalyseOkxService:
         results = await asyncio.gather(*tasks, return_exceptions=True)
         for r in results:
             if isinstance(r, dict) and "error" in r:
-                raise r["error"]
+                err = r["error"]
+                if isinstance(err, BaseException):
+                    raise err
+                else:
+                    raise Exception(err)
             elif isinstance(r, Exception):
                 raise r
             else:

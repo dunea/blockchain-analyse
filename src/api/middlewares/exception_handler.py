@@ -1,6 +1,8 @@
+import openai
 from fastapi import Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from openai import OpenAIError
 from pydantic import BaseModel
 
 from src.core import exceptions
@@ -28,6 +30,12 @@ async def exception_handler(request: Request, exc: Exception):
         return JSONResponse(
             status_code=417,
             content=ErrorResponse.error(417, str(exc)),
+            headers={**CORS}
+        )
+    elif isinstance(exc, (openai.APIError, openai.BadRequestError,)):
+        return JSONResponse(
+            status_code=400,
+            content=ErrorResponse.error(400, str(exc.message)),
             headers={**CORS}
         )
     elif isinstance(exc, (TimeoutError, ConnectionError,)):

@@ -79,9 +79,12 @@ class AnalyseService:
             current_price: float,
             *,
             leverage=1,
+            async_openai: AsyncOpenAI = None,
+            openai_model: str = settings.OPENAI_MODEL,
     ) -> SwapDirection:
-        response = await self._openai_client.chat.completions.create(
-            model=settings.OPENAI_MODEL,
+        openai_client = async_openai or self._openai_client
+        response = await openai_client.chat.completions.create(
+            model=openai_model,
             messages=[
                 ChatCompletionSystemMessageParam(content=f"""
                 你是加密货币永续合约交易分析师。
@@ -109,6 +112,8 @@ class AnalyseService:
             current_price: float,
             *,
             leverage=1,
+            async_openai: AsyncOpenAI = None,
+            openai_model: str = settings.OPENAI_MODEL,
     ) -> SwapDirection:
         if len(directions) <= 0:
             raise ValueError("directions 值不能小于等于 0")
@@ -118,9 +123,9 @@ class AnalyseService:
             user_prompt_list.append(f"## 分析 {direction.timeframe} 方向信号结果")
             user_prompt_list.append(f"{direction}\n")
         user_prompt = "\n".join(user_prompt_list)
-
-        response = await self._openai_client.chat.completions.create(
-            model=settings.OPENAI_MODEL,
+        openai_client = async_openai or self._openai_client
+        response = await openai_client.chat.completions.create(
+            model=openai_model,
             messages=[
                 ChatCompletionSystemMessageParam(content=f"""
                 你是专业的加密货币永续合约信号分析师。
