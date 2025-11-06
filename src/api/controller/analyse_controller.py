@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Optional
 
 import openai
 from fastapi import APIRouter, Path, Query, Header
@@ -59,6 +59,9 @@ async def analyse_okx_stop_loss(
         timeframes: str = Query(
             default="1m,5m,15m,30m,1h,4h,1d",
             description="检查的k线周期，例如：1m,5m,15m,30m,1h,4h,1d，同时填入多个标识同时根据多个k线数据进行分析"),
+        entry_price: Optional[float] = Query(
+            default=None,
+            description="如果已经持仓请填入开仓均价，更好的判断持仓的止损价格"),
         openai_api_key: str = Header(..., alias="OPENAI-API-KEY", description="兼容openai的apikey"),
         openai_base_url: str = Header(..., alias="OPENAI-BASE-URL", description="兼容openai的api链接"),
         openai_model: str = Header(..., alias="OPENAI-MODEL", description="兼容openai的模型"),
@@ -79,6 +82,7 @@ async def analyse_okx_stop_loss(
         openai_model,
         leverage=leverage,
         timeframes=timeframes_list,
+        entry_price=entry_price,
     )
 
     await async_openai.close()

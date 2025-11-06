@@ -1,5 +1,5 @@
 import json
-from typing import Literal
+from typing import Literal, Optional
 
 from injector import inject
 from openai import AsyncOpenAI
@@ -202,6 +202,7 @@ class AnalyseService:
             openai_model: str,
             *,
             leverage=1,
+            entry_price: Optional[float] = None,
     ) -> SwapStopLossTakeProfit:
         response = await async_openai.chat.completions.create(
             model=openai_model,
@@ -218,6 +219,7 @@ class AnalyseService:
                 # 开仓信息
                 杠杆倍数：{leverage}x
                 开仓方向：{'做多' if direction == 'long' else '做空'}
+                开仓均价：{entry_price or 'N/A'}
                 
                 # 行情数据
                 当前价格：{current_price}
@@ -236,6 +238,7 @@ class AnalyseService:
             current_price: float,
             async_openai: AsyncOpenAI,
             openai_model: str,
+            entry_price: Optional[float] = None,
             *,
             leverage=1,
     ) -> SwapStopLossTakeProfit:
@@ -262,6 +265,7 @@ class AnalyseService:
                 # 开仓信息
                 杠杆倍数：{leverage}x
                 开仓方向：{'做多' if direction == 'long' else '做空'}
+                开仓均价：{entry_price or 'N/A'}
                 
                 # 行情数据
                 当前价格：{current_price}

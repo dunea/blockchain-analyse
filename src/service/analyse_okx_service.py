@@ -196,6 +196,7 @@ class AnalyseOkxService:
             openai_model: str,
             *,
             leverage: int = 1,
+            entry_price: Optional[float] = None
     ) -> SwapTimeFramesStopLossTakeProfit:
         ohlcv = await self._exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=300)
         kline_list: list[KlineDto] = self._transition_ohlcv(ohlcv)
@@ -206,6 +207,7 @@ class AnalyseOkxService:
             async_openai,
             openai_model,
             leverage=leverage,
+            entry_price=entry_price,
         )
         return SwapTimeFramesStopLossTakeProfit.model_validate({
             **stop_loss_and_take_profit.model_dump(),
@@ -222,6 +224,7 @@ class AnalyseOkxService:
             *,
             leverage: int = 1,
             timeframes: list[str] = None,
+            entry_price: Optional[float] = None
     ) -> SwapStopLossTakeProfit:
         if timeframes is None:
             timeframes = ["1m", "5m", "15m", "30m", "1h", "4h", "1d"]
@@ -234,7 +237,6 @@ class AnalyseOkxService:
             raise ValueError("symbol参数不能传入空字符串")
 
         time_frames_list: list[SwapTimeFramesStopLossTakeProfit] = []
-        conclusion: Optional[SwapDirection] = None
         ticker = await self._exchange.fetch_ticker(symbol)
         current_price = float(ticker["last"])
 
@@ -249,6 +251,7 @@ class AnalyseOkxService:
                     async_openai,
                     openai_model,
                     leverage=leverage,
+                    entry_price=entry_price,
                 )
             except Exception as e:
                 return {"timeframe": timeframe, "error": e, "traceback": traceback.format_exc()}
@@ -276,6 +279,7 @@ class AnalyseOkxService:
                 async_openai,
                 openai_model,
                 leverage=leverage,
+                entry_price=entry_price,
             )
 
         return time_frames_list[0]
