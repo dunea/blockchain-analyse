@@ -23,8 +23,8 @@ if __name__ == '__main__':
     app.add_exception_handler(Exception, exception_handler)
 
     # 将路由注册到应用中
-    app.include_router(indicators_controller, prefix="/api/v1/indicators", tags=["indicators"])
-    app.include_router(analyse_controller, prefix="/api/v1/analyse", tags=["analyse"])
+    app.include_router(indicators_controller, prefix="/api/v1/indicators", tags=["技术指标"])
+    app.include_router(analyse_controller, prefix="/api/v1/analyse", tags=["分析师"])
 
     # 运行配置
     config = uvicorn.Config(

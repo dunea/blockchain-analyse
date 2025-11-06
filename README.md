@@ -6,14 +6,25 @@
 
 本项目 blockchain-analyse：对加密市场数据进行指标计算与分析，包含对接交易所（例如 OKX/CCTX）、指标库与提示（prompt）服务等模块化实现。
 
+## 支持功能
+
+- [*] AI 分析 okx 永续合约多空信号
+- [*] AI 分析 okx 永续合约止盈/止损价格
+- [*] 计算k线指标
+- [ ] 多交易所支持: 欧易, 火币, 币安 ...
+- [*] 技术分析师：运用MACD、RSI等技术指标识别交易模式并预测价格走势
+- [ ] 情绪分析师：运用情绪评分算法分析社交媒体和公众情绪，研判短期市场情绪
+- [ ] 新闻分析师：监测全球新闻和宏观经济指标，解读事件对市场状况的影响
+
 ## 支持任意兼容OpenAI的接口
 
 经过测试，推荐使用deepseek的ai接口，非推理模型就不错，推理模型分析的太慢了要2分多钟，非推理模型30秒左右。
 
 ## 测试api接口
 
-我这边用腾讯云的云函数搭建了个api接口，可以测试使用，有问题欢迎反馈。
-api接口文档：https://blockchain-analyse.nuoyea.com/docs
+- 我这边用腾讯云的云函数搭建了个api接口，可以测试使用，有问题欢迎反馈。
+- api接口文档：https://blockchain-analyse.nuoyea.com/docs
+- 测试okx永续合约交易代码仓库：https://github.com/dunea/blockchain-ai-quantificat
 
 ## 目录（简要）
 

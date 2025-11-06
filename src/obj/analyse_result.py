@@ -12,3 +12,14 @@ class SwapDirection(BaseModel):
 
 class SwapTimeFramesDirection(SwapDirection):
     timeframe: str
+
+
+class SwapStopLossTakeProfit(BaseModel):
+    stop_loss: float = Field(..., description="止损价格")
+    take_profit: float = Field(..., description="止盈价格")
+    reason: str = Field(..., description="分析理由")
+    confidence: Literal['high', 'medium', 'low'] = Field(..., description="信心")
+
+
+class SwapTimeFramesStopLossTakeProfit(SwapStopLossTakeProfit):
+    timeframe: str

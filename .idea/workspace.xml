@@ -18,9 +18,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf8589a-b0c3-4f84-83f3-782eceb6a5f6" name="更改" comment="删除 REMADE.md 文件，迁移提示词指标标签至 README.md">
+    <list default="true" id="fbf8589a-b0c3-4f84-83f3-782eceb6a5f6" name="更改" comment="更新 README 文件，完善提示词指标说明并新增接口测试相关文档">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/controller/analyse_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/controller/analyse_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/controller/indicators_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/controller/indicators_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/obj/analyse_result.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/obj/analyse_result.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/analyse_okx_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/analyse_okx_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/analyse_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/analyse_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_analyse.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_analyse.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +43,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "dunea"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/dunea/blockchain-analyse.git",
+    "accountId": "5b9c0d1b-bfc1-4cad-9f47-0a625288fdef"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -226,7 +246,7 @@
       <workItem from="1761802987887" duration="8893000" />
       <workItem from="1761909308732" duration="18341000" />
       <workItem from="1762035625112" duration="42954000" />
-      <workItem from="1762239003111" duration="80990000" />
+      <workItem from="1762239003111" duration="87653000" />
     </task>
     <task id="LOCAL-00001" summary="添加项目初始化文件和开发常用命令文档">
       <option name="closed" value="true" />
@@ -300,7 +320,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762385316454</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="更新 README 文件，完善提示词指标说明并新增接口测试相关文档">
+      <option name="closed" value="true" />
+      <created>1762385654351</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1762385654351</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,14 +356,15 @@
     <MESSAGE value="添加依赖文件和 README 文档，完善项目环境配置及使用说明" />
     <MESSAGE value="添加 Dockerfile 文件，配置基础镜像和项目运行环境，更新服务端口为 9000" />
     <MESSAGE value="删除 REMADE.md 文件，迁移提示词指标标签至 README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="删除 REMADE.md 文件，迁移提示词指标标签至 README.md" />
+    <MESSAGE value="更新 README 文件，完善提示词指标说明并新增接口测试相关文档" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 README 文件，完善提示词指标说明并新增接口测试相关文档" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_yfinance.coverage" NAME="test_yfinance 覆盖结果" MODIFIED="1761814654868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_cctx.coverage" NAME="test_cctx 覆盖结果" MODIFIED="1762042547753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_analyse.coverage" NAME="test_analyse 覆盖结果" MODIFIED="1762354319142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_prompt.coverage" NAME="test_prompt 覆盖结果" MODIFIED="1762256348816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/blockchain_analyse$main.coverage" NAME="main 覆盖结果" MODIFIED="1762371477197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/blockchain_analyse$main.coverage" NAME="main 覆盖结果" MODIFIED="1762391755629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_indicators.coverage" NAME="test_indicators 覆盖结果" MODIFIED="1762159230993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
   </component>
 </project>

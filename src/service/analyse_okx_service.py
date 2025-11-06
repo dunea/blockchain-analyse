@@ -1,6 +1,6 @@
 import asyncio
 import traceback
-from typing import Optional
+from typing import Optional, Literal
 
 from ccxt.async_support import okx
 from injector import inject
@@ -8,7 +8,8 @@ from openai import AsyncOpenAI
 
 from src.core import settings
 from src.lib.indicators import Kline
-from src.obj import SwapTimeFramesDirection, KlineDto, SwapDirectionDto, SwapDirection
+from src.obj import SwapTimeFramesDirection, KlineDto, SwapDirectionDto, SwapDirection, \
+    SwapTimeFramesStopLossTakeProfit, SwapStopLossTakeProfit
 from src.service.analyse_service import AnalyseService
 
 
@@ -57,8 +58,8 @@ class AnalyseOkxService:
             "timeframe": timeframe,
         })
 
-    # 分析
-    async def analyse(
+    # 分析方向
+    async def analyse_direction(
             self,
             symbol: str,
             *,
@@ -125,8 +126,8 @@ class AnalyseOkxService:
             conclusion_direction=conclusion_direction or directions[0]
         )
 
-    # 比较分析
-    async def analyse_compare(
+    # 比较分析方向
+    async def compare_direction(
             self,
             symbol: str,
             *,
@@ -140,7 +141,7 @@ class AnalyseOkxService:
 
         async def task_wrapper():
             try:
-                return await self.analyse(
+                return await self.analyse_direction(
                     symbol,
                     leverage=leverage,
                     timeframes=timeframes,
@@ -183,3 +184,98 @@ class AnalyseOkxService:
             return sell_result_list[0]
         else:
             return hold_result_list[0]
+
+    # 分析指定时间止损止盈价格
+    async def analyse_timeframe_stop_loss_and_take_profit(
+            self,
+            symbol: str,
+            direction: Literal['long', 'short'],
+            timeframe: str,
+            current_price: float,
+            async_openai: AsyncOpenAI,
+            openai_model: str,
+            *,
+            leverage: int = 1,
+    ) -> SwapTimeFramesStopLossTakeProfit:
+        ohlcv = await self._exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=300)
+        kline_list: list[KlineDto] = self._transition_ohlcv(ohlcv)
+        stop_loss_and_take_profit = await self._analyse_svc.analyse_swap_stop_loss_and_take_profit(
+            kline_list,
+            direction,
+            current_price,
+            async_openai,
+            openai_model,
+            leverage=leverage,
+        )
+        return SwapTimeFramesStopLossTakeProfit.model_validate({
+            **stop_loss_and_take_profit.model_dump(),
+            "timeframe": timeframe,
+        })
+
+    # 分析止损止盈价格
+    async def analyse_stop_loss_take_profit(
+            self,
+            symbol: str,
+            direction: Literal['long', 'short'],
+            async_openai: AsyncOpenAI,
+            openai_model: str,
+            *,
+            leverage: int = 1,
+            timeframes: list[str] = None,
+    ) -> SwapStopLossTakeProfit:
+        if timeframes is None:
+            timeframes = ["1m", "5m", "15m", "30m", "1h", "4h", "1d"]
+        if len(timeframes) <= 0:
+            raise ValueError("timeframes参数不能传入空数组")
+        if leverage <= 0:
+            raise ValueError("leverage参数不能传入小于等于0的值")
+        symbol = symbol.strip()
+        if len(symbol) <= 0:
+            raise ValueError("symbol参数不能传入空字符串")
+
+        time_frames_list: list[SwapTimeFramesStopLossTakeProfit] = []
+        conclusion: Optional[SwapDirection] = None
+        ticker = await self._exchange.fetch_ticker(symbol)
+        current_price = float(ticker["last"])
+
+        # 分析指定时间止损止盈价格
+        async def task_wrapper(timeframe: str):
+            try:
+                return await self.analyse_timeframe_stop_loss_and_take_profit(
+                    symbol,
+                    direction,
+                    timeframe,
+                    current_price,
+                    async_openai,
+                    openai_model,
+                    leverage=leverage,
+                )
+            except Exception as e:
+                return {"timeframe": timeframe, "error": e, "traceback": traceback.format_exc()}
+
+        tasks = [asyncio.create_task(task_wrapper(timeframe)) for timeframe in timeframes]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        for r in results:
+            if isinstance(r, dict) and "error" in r:
+                err = r["error"]
+                if isinstance(err, BaseException):
+                    raise err
+                else:
+                    raise Exception(err)
+            elif isinstance(r, Exception):
+                raise r
+            else:
+                time_frames_list.append(r)
+
+        # 分析最终方向
+        if len(time_frames_list) >= 2:
+            return await self._analyse_svc.audit_swap_stop_loss_and_take_profit(
+                time_frames_list,
+                direction,
+                current_price,
+                async_openai,
+                openai_model,
+                leverage=leverage,
+            )
+
+        return time_frames_list[0]

@@ -83,7 +83,7 @@ async def test_analyse():
 async def main():
     start_time = time.time()
     analyse_okx_svc = di.get(AnalyseOkxService)
-    direction = (await analyse_okx_svc.analyse_compare("BTC/USDT:USDT", leverage=20, compare=3)).conclusion_direction
+    direction = (await analyse_okx_svc.compare_direction("BTC/USDT:USDT", leverage=20, compare=3)).conclusion_direction
     print("=" * 20, f"分析耗时 {(time.time() - start_time):.2f}s", "=" * 20)
     print(direction)
 

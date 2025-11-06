@@ -8,6 +8,6 @@ indicators_controller = APIRouter()
 
 
 # 计算k线指标
-@indicators_controller.post("/calculate", response_model=IndicatorsDto)
+@indicators_controller.post("/calculate", response_model=IndicatorsDto, summary="计算k线指标")
 async def calculate_indicators(request: CalculateIndicatorsRequest = Body(...)):
     return di.get(IndicatorsService).calculate_indicators(request)
