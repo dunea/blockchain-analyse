@@ -18,11 +18,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbf8589a-b0c3-4f84-83f3-782eceb6a5f6" name="更改" comment="新增 OKX 永续合约止盈止损分析功能，完善分析方向接口及相关服务逻辑配置，优化多时间框架信号处理。">
+    <list default="true" id="fbf8589a-b0c3-4f84-83f3-782eceb6a5f6" name="更改" comment="新增开仓均价参数支持，完善 OKX 永续合约止盈止损分析功能，优化多时间框架信号处理逻辑。">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/controller/analyse_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/controller/analyse_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/analyse_okx_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/analyse_okx_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/analyse_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/analyse_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +239,7 @@
       <workItem from="1761802987887" duration="8893000" />
       <workItem from="1761909308732" duration="18341000" />
       <workItem from="1762035625112" duration="42954000" />
-      <workItem from="1762239003111" duration="89674000" />
+      <workItem from="1762239003111" duration="91367000" />
     </task>
     <task id="LOCAL-00001" summary="添加项目初始化文件和开发常用命令文档">
       <option name="closed" value="true" />
@@ -331,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762392483780</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="新增开仓均价参数支持，完善 OKX 永续合约止盈止损分析功能，优化多时间框架信号处理逻辑。">
+      <option name="closed" value="true" />
+      <created>1762394889580</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1762394889580</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,14 +367,15 @@
     <MESSAGE value="删除 REMADE.md 文件，迁移提示词指标标签至 README.md" />
     <MESSAGE value="更新 README 文件，完善提示词指标说明并新增接口测试相关文档" />
     <MESSAGE value="新增 OKX 永续合约止盈止损分析功能，完善分析方向接口及相关服务逻辑配置，优化多时间框架信号处理。" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增 OKX 永续合约止盈止损分析功能，完善分析方向接口及相关服务逻辑配置，优化多时间框架信号处理。" />
+    <MESSAGE value="新增开仓均价参数支持，完善 OKX 永续合约止盈止损分析功能，优化多时间框架信号处理逻辑。" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增开仓均价参数支持，完善 OKX 永续合约止盈止损分析功能，优化多时间框架信号处理逻辑。" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_yfinance.coverage" NAME="test_yfinance 覆盖结果" MODIFIED="1761814654868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_cctx.coverage" NAME="test_cctx 覆盖结果" MODIFIED="1762042547753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_analyse.coverage" NAME="test_analyse 覆盖结果" MODIFIED="1762354319142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_prompt.coverage" NAME="test_prompt 覆盖结果" MODIFIED="1762256348816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/blockchain_analyse$main.coverage" NAME="main 覆盖结果" MODIFIED="1762392329722" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/blockchain_analyse$main.coverage" NAME="main 覆盖结果" MODIFIED="1762394634578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/blockchain_analyse$test_indicators.coverage" NAME="test_indicators 覆盖结果" MODIFIED="1762159230993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
   </component>
 </project>
