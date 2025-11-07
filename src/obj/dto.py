@@ -3,8 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from src.lib.indicators.models import StochRSI, MACD, HighsLows, BollingerBands, Stoch
-from .analyse_result import SwapTimeFramesDirection, SwapDirection
+from src.analyst import StochRSI, MACD, HighsLows, BollingerBands, Stoch, TimeFramesDirection, Direction
 
 
 class KlineDto(BaseModel):
@@ -39,5 +38,5 @@ class IndicatorsDto(BaseModel):
 
 
 class SwapDirectionDto(BaseModel):
-    directions: list[SwapTimeFramesDirection]
-    conclusion_direction: SwapDirection
+    directions: list[TimeFramesDirection]
+    conclusion_direction: Direction

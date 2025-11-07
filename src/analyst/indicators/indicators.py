@@ -1,11 +1,8 @@
-from typing import Any, Literal
-
 import pandas as pd
 import talib
-import numpy as np
-from numpy import ndarray, dtype, float64
-from talib import MA_Type
 
+from typing import Any, Literal
+from talib import MA_Type
 from .models import Kline, Stoch, MACD, StochRSI, BollingerBands, HighsLows
 
 

@@ -1,7 +1,7 @@
 from injector import inject
 
-from src.lib.indicators import Indicators, Kline
-from src.obj import KlineDto, IndicatorsDto, CalculateIndicatorsRequest
+from src.analyst import Indicators, Kline
+from src.obj import IndicatorsDto, CalculateIndicatorsRequest
 
 
 class IndicatorsService:

@@ -2,7 +2,7 @@ import ccxt
 from yfinance import data
 
 from src.core import settings
-from src.lib.indicators import Indicators, Kline
+from src.analyst.indicators import Indicators, Kline
 
 exchange = ccxt.okx({
     'apiKey': settings.OKX_API_KEY,

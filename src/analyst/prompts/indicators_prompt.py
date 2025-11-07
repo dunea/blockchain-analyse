@@ -1,14 +1,10 @@
 from typing import Optional, Any
 
-from injector import inject
-
-from src.lib.indicators import Indicators
-from src.lib.indicators.models import Stoch, StochRSI, MACD, HighsLows, BollingerBands, Kline
-from src.obj import KlineDto
+from ..indicators import Indicators
+from ..indicators.models import Stoch, StochRSI, MACD, HighsLows, BollingerBands, Kline
 
 
-class PromptService:
-    @inject
+class IndicatorsPrompt:
     def __init__(self):
         pass
 
@@ -170,7 +166,7 @@ class PromptService:
 
     # k线提示词
     @staticmethod
-    def kline_prompt(kline_list: list[KlineDto]) -> str:
+    def kline_prompt(kline_list: list[Kline]) -> str:
         sorted_kline_list = sorted(kline_list, key=lambda k: k.timestamp, reverse=True)
         prompt_rows = ["## 近期 k 线数据", "Timestamp,Open,High,Low,Close,Volume"]
         kline_rows = []
@@ -187,7 +183,7 @@ class PromptService:
         return '\n'.join(prompt_rows)
 
     # 格式化提示词
-    def format_prompt(self, prompt: str, kline_list: list[KlineDto]) -> str:
+    def format_prompt(self, prompt: str, kline_list: list[Kline]) -> str:
         indicators_kline_list: list[Kline] = []
         for item in kline_list:
             indicators_kline_list.append(Kline(
@@ -259,7 +255,7 @@ class PromptService:
         return prompt
 
     # 全部技术指标提示词
-    def all_indicators_prompt(self, kline_list: list[KlineDto]) -> str:
+    def all_indicators_prompt(self, kline_list: list[Kline]) -> str:
         prompt = [
             "# 技术指标",
             "{{kline}}\n",
